@@ -19,8 +19,10 @@ var price=30;
 SigninCharacter _character=SigninCharacter.fill;
   @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(appBar: AppBar(backgroundColor: Colors.amber,title: Text('Product Overview',style: TextStyle(),),),
+    print('no host//');
+    print(widget.productimage);
+    return Scaffold(appBar:
+     AppBar(backgroundColor: Colors.amber,title: Text('Product Overview',style: TextStyle(),),),
 bottomNavigationBar: Row(children: [
 bottom(
 backgroundColor:Colors.white,
@@ -47,18 +49,24 @@ color: Colors.black,
             width: double.infinity,
             child: Column(children: [
             
-            ListTile(title: Text('Fresh Basil',style: TextStyle(fontWeight: FontWeight.bold),),
+            ListTile(title: Text(widget.productname,style: TextStyle(fontWeight: FontWeight.bold),),
             
             subtitle: Text('\$40'),)
             ,
              Container(
               height: 200,
+              child: Image.network(widget.productimage),
               //color: Colors.red
-             decoration: BoxDecoration(
+//              decoration: BoxDecoration(
              
-image: DecorationImage(fit: BoxFit.contain,image:NetworkImage('https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg') )
+// image: Image.network(widget.productimage)
+// // DecorationImage(fit: BoxFit.contain,image:NetworkImage(
+// //   widget.productimage
+// //   //'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg'
+// //   )
+// //    )
 
-             ),
+//              ),
 
         //height: 200,padding: EdgeInsets.all(20),
        // child: Image.network('https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg',height: 200,),

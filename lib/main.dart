@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/auth/signin.dart';
+import 'package:fooddelivery/provider/product_provider.dart';
+import 'package:fooddelivery/provider/userProvider.dart';
 import 'package:fooddelivery/screens/product_overview.dart';
-
+import 'package:provider/provider.dart';
 
 void main() async{
 
@@ -19,7 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
    
 
-    return MaterialApp(
+    return MultiProvider(providers: [
+ChangeNotifierProvider<ProductProvider>(create:(context)=>ProductProvider() ),
+ChangeNotifierProvider(create: (context)=>UserProvider())
+
+    ],
+    child: MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
        
@@ -28,7 +35,7 @@ class MyApp extends StatelessWidget {
       home:
       //ProductOverview(productname: 'Fresh Basil', productimage: 'n')
        Signin(),
-    );
+    ),);
   }
 }
 
