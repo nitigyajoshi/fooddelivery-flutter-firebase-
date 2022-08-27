@@ -13,8 +13,8 @@ manageproduct(QueryDocumentSnapshot element)async{
 productModel=ProductModel(
 product_image:element.get("product_image"),
 product_Name: element.get("product_Name"),
-product_price: element.get("product_price")
-
+product_price: element.get("product_price"),
+productId: element.get("productId")
 
 );
 search.add(productModel!);

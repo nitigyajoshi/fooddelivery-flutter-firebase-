@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/customwidgets/listtile.dart';
+import 'package:fooddelivery/provider/wishlist_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../customwidgets/bottomnav.dart';
 enum SigninCharacter{fill,outline}
@@ -8,7 +12,10 @@ enum SigninCharacter{fill,outline}
 class ProductOverview extends StatefulWidget {
   final String productname;
   final String productimage;
-  ProductOverview({required this.productname,required this.productimage}) ;
+  final int ?productprice;
+
+  final String productId;
+  ProductOverview({required this.productname,required this.productimage,required this.productprice,required this.productId}) ;
 
   @override
   State<ProductOverview> createState() => _ProductOverviewState();
@@ -17,10 +24,32 @@ class ProductOverview extends StatefulWidget {
 class _ProductOverviewState extends State<ProductOverview> {
 var price=30;
 SigninCharacter _character=SigninCharacter.fill;
+  bool wishListBoool=false;
+getbool(){
+FirebaseFirestore.instance.collection('MyWishList').doc(FirebaseAuth.instance.currentUser!.uid).collection("wishList").
+get().then((value) => {
+value.docs.forEach((element) {
+if(this.mounted){
+  setState(() { 
+wishListBoool=element.get("wishList");
+
+   });
+}
+
+ })
+
+});
+
+
+}
+
+
   @override
   Widget build(BuildContext context) {
-    print('no host//');
-    print(widget.productimage);
+    
+    Wishlist wishlist=Provider.of<Wishlist>(context);
+getbool();
+    //print(widget.productimage);
     return Scaffold(appBar:
      AppBar(backgroundColor: Colors.amber,title: Text('Product Overview',style: TextStyle(),),),
 bottomNavigationBar: Row(children: [
@@ -28,8 +57,23 @@ bottom(
 backgroundColor:Colors.white,
 iconcolor:Colors.grey,
 title:"Add to wishlist",
-icondata:Icons.favorite_outlined, 
-color: Colors.black,
+icondata:wishListBoool==false?Icons.favorite_outline:Icons.favorite,
+color:Colors.black, 
+//Colors.black,
+onTap: (){
+  setState(() {
+    wishListBoool=!wishListBoool;
+
+  });
+if(wishListBoool==true){
+  wishlist.addWishList(widget.productId, widget.productname, widget.productimage, widget.productprice, 2);
+}
+else if(wishListBoool==false){
+wishlist.deleteWishList(widget.productId);
+}
+
+}
+
 ),
 bottom(
 backgroundColor:Colors.yellow,

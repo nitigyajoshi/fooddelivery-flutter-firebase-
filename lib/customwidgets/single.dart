@@ -4,36 +4,11 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fooddelivery/customwidgets/counter.dart';
 
-class Single extends StatefulWidget {
-  final String title;
-final String image;
- Single({required this.title,required this.image});
 
-  @override
-  State<Single> createState() => _SingleState();
-}
-
-class _SingleState extends State<Single> {
-  @override
-  Widget build(BuildContext context) {
-    print('title home title');
-    print(widget.image);
-    return SingleChildScrollView(
-scrollDirection: Axis.horizontal,
-child: Row(
-  children: [
-
-
-
-  ],
-),
-
-    );
-  }
-}
 /////////////////////////////////////////////////////////
 ///
 class SingalProduct extends StatefulWidget {
+  final String productId;
   final String productImage;
   final String productName;
    final int productPrice;
@@ -47,7 +22,7 @@ class SingalProduct extends StatefulWidget {
       required this.productName,
 
    this.onTap,
-      required this.productPrice
+      required this.productPrice,required this.productId
       //});
       });
   @override
@@ -117,72 +92,22 @@ class _SingalProductState extends State<SingalProduct> {
                        , SizedBox(
                           height: 5,
                         ),
-                        // Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: ProductUnit(
-                        //         onTap: () {
-                        //           showModalBottomSheet(
-                        //               context: context,
-                        //               builder: (context) {
-                        //                 return Column(
-                        //                   mainAxisSize: MainAxisSize.min,
-                        //                   crossAxisAlignment:
-                        //                       CrossAxisAlignment.start,
-                        //                   children: widget
-                        //                       .productUnit.productUnit
-                        //                       .map<Widget>((data) {
-                        //                     return Column(
-                        //                       children: [
-                        //                         Padding(
-                        //                           padding: const EdgeInsets
-                        //                                   .symmetric(
-                        //                               vertical: 10,
-                        //                               horizontal: 10),
-                        //                           child: InkWell(
-                        //                             onTap: () async {
-                        //                               setState(() {
-                        //                                 unitData = data;
-                        //                               });
-                        //                               Navigator.of(context)
-                        //                                   .pop();
-                        //                             },
-                        //                             child: Text(
-                        //                               data,
-                        //                               style: TextStyle(
-                        //                                   color: primaryColor,
-                        //                                   fontSize: 18),
-                        //                             ),
-                        //                           ),
-                        //                         ),
-                        //                       ],
-                        //                     );
-                        //                   }).toList(),
-                        //                 );
-                        //               });
-                        //         },
-                        //         title: unitData == null?firstValue:unitData,
-                        //       ),
-                        //     ),
-                        //     SizedBox(
-                        //       width: 5,
-                        //     ),
-                        //     Count(
-                        //       productId: widget.productId,
-                        //       productImage: widget.productImage,
-                        //       productName: widget.productName,
-                        //       productPrice: widget.productPrice,
-                        //       productUnit: unitData == null?firstValue:unitData,
-                        //     ),
-                        //   ],
-                        // ),
+                        
                       ],
                     ),
                   ),
                 ),
                 Row(
                   children: [
-                    Container(height: 20,width: 65,child: Text('50gm'),), Counter()
+                    Container(height: 20,width: 65,child: Text('50gm'),),
+                    
+                     Counter(productId: widget.productId,
+                     productimage: widget.productImage,
+                     productName: widget.productName,
+                     productPrice: widget.productPrice,
+                     productQuantity: 1,
+                     
+                     )
                   ],
                 ),
                

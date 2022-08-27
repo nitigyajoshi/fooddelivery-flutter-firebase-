@@ -5,7 +5,10 @@ bool isbool=false;
 String title;
 String image;
 int ?price;
-SearchItem({required this.isbool,required this.title,required this.image,required this.price});
+String id;
+int ?quantity;
+VoidCallback ?delete;
+SearchItem({this.delete,required this.isbool,required this.title,required this.image,required this.price,required this.id,required this.quantity});
   @override
   State<SearchItem> createState() => _SearchItemState();
 }
@@ -51,7 +54,7 @@ fontWeight:FontWeight.bold),):Text(widget.title,style: TextStyle(color: Colors.b
 ,
 fontWeight:FontWeight.bold),)
 ,
-Text('5${widget.price}\$/gram',style: TextStyle(
+Text('${widget.price}\$/gram',style: TextStyle(
   color: Colors.grey,
 
 ),)
@@ -144,12 +147,23 @@ padding: EdgeInsets.symmetric(horizontal: 15,vertical: 32),
   ,
   widget.isbool==false?Container():Divider(height: 1,color: Colors.black,)
 ,SizedBox(height: 20,),
-Divider(height: 2,)
+Divider(height: 2,),
 
   ],
 ),
 ):Text('50 gram')
-
+,Container(
+  //color: Colors.amberAccent,height: 15,
+  child:   Row(children: [
+  
+    IconButton(onPressed: (){}, icon: Icon(Icons.add)),
+  
+     IconButton(onPressed:widget.delete
+      
+     , icon: Icon(Icons.delete))
+  
+  ],),
+)
 ],
         )
       ;

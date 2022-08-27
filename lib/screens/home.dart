@@ -152,8 +152,8 @@ return SingleChildScrollView(
  children:productProvider!.getProductData.map((element){
   
 
-  return SingalProduct(productPrice:element.product_price!,productName: element.product_Name,productImage: element.product_image,onTap:(){
-Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(productname: element.product_Name,productimage: element.product_image,)));
+  return SingalProduct(productId: element.productId,productPrice:element.product_price!,productName: element.product_Name,productImage: element.product_image,onTap:(){
+Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(productname: element.product_Name,productimage: element.product_image,productId: element.productId,productprice: element.product_price,)));
   } );
   
  }).toList()
@@ -171,8 +171,8 @@ Widget fresh2(){
       child: Column(children:[
         
         Row(children: productProvider!.getfruitData.map((e){
-        return SingalProduct(productImage: e.product_image, productName: e.product_Name, productPrice: e.product_price!,onTap:(){
-Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(productname: e.product_Name,productimage: e.product_image,)));
+        return SingalProduct(productId: e.productId,productImage: e.product_image, productName: e.product_Name, productPrice: e.product_price!,onTap:(){
+Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(productname: e.product_Name,productimage: e.product_image,productId: e.productId,productprice: e.product_price)));
   });
       }).toList(),),])
      

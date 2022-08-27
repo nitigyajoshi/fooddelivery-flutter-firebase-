@@ -68,7 +68,7 @@ suffixIcon: Icon(Icons.search),
 ,Column(
   children: _searchItem.map((e){
 return 
-SearchItem(isbool: true,title: e.product_Name,image: e.product_image,price: e.product_price,);
+SearchItem(isbool: true,title: e.product_Name,image: e.product_image,price: e.product_price,id:e.productId,quantity: 1,);
   } ).toList(),
 )
 

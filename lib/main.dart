@@ -2,9 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/auth/signin.dart';
 import 'package:fooddelivery/provider/product_provider.dart';
+import 'package:fooddelivery/provider/review_cart_provider.dart';
 import 'package:fooddelivery/provider/userProvider.dart';
 import 'package:fooddelivery/screens/product_overview.dart';
 import 'package:provider/provider.dart';
+
+import 'provider/wishlist_provider.dart';
 
 void main() async{
 
@@ -23,7 +26,9 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(providers: [
 ChangeNotifierProvider<ProductProvider>(create:(context)=>ProductProvider() ),
-ChangeNotifierProvider(create: (context)=>UserProvider())
+ChangeNotifierProvider(create: (context)=>UserProvider()),
+ChangeNotifierProvider(create: (context)=>ReviewCartProvider()),
+ChangeNotifierProvider(create: (context)=>Wishlist()),
 
     ],
     child: MaterialApp(

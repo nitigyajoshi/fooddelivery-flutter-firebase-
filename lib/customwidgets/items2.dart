@@ -24,14 +24,17 @@ decoration: BoxDecoration(
   
        Text('Rs 50/kg',style: TextStyle(color: Colors.black,),),
           Container(
-            child: OutlinedButton(onPressed: (){Navigator.of(con).pushReplacement(MaterialPageRoute(builder: (con)=>ProductOverview(productname:"Fresh vegitable",productimage:"https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg")));
-            }, child:Row(children: [
-     Text('50gm',style: TextStyle(color: Colors.green),),Icon(Icons.arrow_drop_down,color: Colors.green,size: 15,),
+  //           child: OutlinedButton(onPressed: (){Navigator.of(con).pushReplacement(MaterialPageRoute(builder: (con)=>
+  //           ProductOverview(productname:"Fresh vegitable",productimage:"https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg")
+  //           )
+  //           );
+  //           }, child:Row(children: [
+  //    Text('50gm',style: TextStyle(color: Colors.green),),Icon(Icons.arrow_drop_down,color: Colors.green,size: 15,),
          
-         Icon(Icons.remove,color: Colors.green)
-   ,Text('1'),Icon(Icons.add,color: Colors.green) ],
-            )
-             ),
+  //        Icon(Icons.remove,color: Colors.green)
+  //  ,Text('1'),Icon(Icons.add,color: Colors.green) ],
+  //           )
+  //            ),
           ),
 
         ],

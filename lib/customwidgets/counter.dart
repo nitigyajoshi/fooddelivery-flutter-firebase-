@@ -1,9 +1,18 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/provider/review_cart_provider.dart';
+import 'package:provider/provider.dart';
 
 
 class Counter extends StatefulWidget {
-  const Counter({Key? key}) : super(key: key);
+  String productName;
+  String productimage;
+  String productId;
+  int productQuantity;
+  int productPrice;
+   Counter({required this.productName,required this.productimage,required this.productId,required this.productQuantity,required this.productPrice});
 
   @override
   State<Counter> createState() => _CounterState();
@@ -14,7 +23,33 @@ class _CounterState extends State<Counter> {
   bool istrue=false;
   @override
   Widget build(BuildContext context) {
-    return istrue==false? Row(children: [ 
+
+    ReviewCartProvider reviewCartProvider=Provider.of<ReviewCartProvider>(context);
+
+getAddQuantity(){
+FirebaseFirestore.instance.collection
+("ReviewCart").doc(FirebaseAuth.instance.currentUser!.uid).collection("reviewCart").doc(widget.productId).get().
+then((value)=>{
+if(this.mounted){
+  
+  if(value.exists){
+setState(() {
+  count=value.get("cartQuantity");
+istrue=value.get("isAdd");
+})
+  }
+}
+
+
+
+});
+
+
+}
+
+
+
+    return istrue==true? Row(children: [ 
     
     
        Icon(Icons.arrow_drop_down,color: Colors.green,size: 15,),
@@ -22,12 +57,17 @@ class _CounterState extends State<Counter> {
          
          InkWell(onTap: (){
            if(count==1){
-              istrue=false;
+              setState(() {
+               istrue=false; 
+              });
+             reviewCartProvider.deleteReview(widget.productId); 
+
           }
-          if (count>1){
+          else if (count>1){
         setState(() {
         count--;
       });
+reviewCartProvider.updateCart(widget.productId, widget.productName,widget.productimage,widget.productPrice,count);
     }
 // setState(() {
 //   //istrue=false;
@@ -43,6 +83,7 @@ setState(() {
   //istrue=false;
   count++;
 });
+reviewCartProvider.updateCart(widget.productId, widget.productName, widget.productimage, widget.productPrice, count,);
 
          },child: Icon(Icons.add,color: Colors.green)
          ),
@@ -54,7 +95,9 @@ setState(() {
 setState(() {
   istrue=true;
 });
+reviewCartProvider.addUser(widget.productId, widget.productName, widget.productimage, widget.productPrice, count,true);
       },child: Text('Add'),
     ),
   );}
 }
+
