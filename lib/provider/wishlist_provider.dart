@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fooddelivery/model/product_model.dart';
 
 class Wishlist with ChangeNotifier{
+  List<ProductModel>product_model=[];
 void addWishList(String ?wishListId,String ?wishListName,String ?wishListImage,int ?wishListPrice,int wishListQuantity, ) async{
 
 
@@ -14,23 +15,27 @@ collection("wishList").doc(wishListId).set({
 "cartName": wishListName,
 "cartPrice":wishListPrice,
 "cartQuantity":wishListQuantity,
-"wishList":true
+"wishListbool":true
 });
 
 
 }
 List<ProductModel>wishList=[];
+
 getWishList()async{
-List<ProductModel>product_model=[];
-QuerySnapshot value=await FirebaseFirestore.instance.collection("MyWishList").doc(FirebaseAuth.instance.currentUser!.uid).collection("wishList").get();
+
+QuerySnapshot value=await FirebaseFirestore.instance.collection("MyWishList").
+doc(FirebaseAuth.instance.currentUser!.uid).collection("wishList").get();
 value.docs.forEach((element) { 
 ProductModel productModel=ProductModel(productId: element.get("cartId"), 
-product_Name: element.get("cartName"), product_image: element.get("cartImage"),
+product_Name: element.get("cartName"), 
+product_image: element.get("cartImage"),
 product_price: element.get("cartPrice"),
-
+quantity: element.get("cartQuantity"),
+productunit: element.get("productunit")
 );
 product_model.add(productModel);
-
+print(productModel);
 });
  wishList=product_model;
  notifyListeners();
@@ -42,5 +47,8 @@ FirebaseFirestore.instance.collection("MyWishList").doc(FirebaseAuth.instance.cu
 notifyListeners();
 }
 
+List<ProductModel>get geterWishList{
+  return wishList;
+}
 
 }

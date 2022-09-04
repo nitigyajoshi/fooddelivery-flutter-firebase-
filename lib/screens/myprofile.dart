@@ -1,9 +1,18 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/model/user_model.dart';
+import 'package:fooddelivery/provider/userProvider.dart';
 
-class Myprofile extends StatelessWidget {
-  const Myprofile({Key? key}) : super(key: key);
+class Myprofile extends StatefulWidget {
+  UserProvider userProvider;
+   Myprofile({required this.userProvider});
+
+  @override
+  State<Myprofile> createState() => _MyprofileState();
+}
+
+class _MyprofileState extends State<Myprofile> {
 Widget listtile({IconData ?icon,String ?title}){
 return Column(
 children: [
@@ -18,8 +27,11 @@ trailing: Icon(Icons.arrow_forward_ios),
 
 
 }
+
   @override
   Widget build(BuildContext context) {
+        var userData = widget.userProvider.currentUserData;
+
     //double height = MediaQuery. of(context). size. height;
     return Scaffold(
       backgroundColor:Color(0xffd1ad17) ,
@@ -56,13 +68,13 @@ child: Row(
 Column(mainAxisAlignment: MainAxisAlignment.center,
 crossAxisAlignment: CrossAxisAlignment.start,
 children: [
-Text('Nitigya Joshi',style: TextStyle(
+Text(userData.userName,style: TextStyle(
   fontWeight:FontWeight.bold,
   fontSize: 15,
 
 ),
 ),
-Text('nitigyajoshi@gmail.com')
+Text(userData.userEmail)
 
 
 ],
@@ -109,7 +121,10 @@ child: CircleAvatar(
 radius: 50,
 backgroundColor: Colors.yellow,
 child: CircleAvatar(
-backgroundImage: NetworkImage('https://media.istockphoto.com/photos/patan-picture-id637696304?k=20&m=637696304&s=612x612&w=0&h=GqmMtggU2LgHWcXPFNxMrZg9dtPzyrnl9ek5oARcI7Y='),
+backgroundImage: NetworkImage(
+  userData.userImage==null?'https://media.istockphoto.com/photos/patan-picture-id637696304?k=20&m=637696304&s=612x612&w=0&h=GqmMtggU2LgHWcXPFNxMrZg9dtPzyrnl9ek5oARcI7Y=':
+userData.userImage
+),
   radius: 45,
 
 

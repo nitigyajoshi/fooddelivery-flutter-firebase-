@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fooddelivery/model/user_model.dart';
 
 class UserProvider with ChangeNotifier{
 
@@ -14,6 +15,19 @@ await FirebaseFirestore.instance.collection("userData").doc(currentUser.uid).set
 
 }
 
+UserModel ?currentData;
+void getUser() async{
+  UserModel userModel;
+var value=await FirebaseFirestore.instance.collection("userData").doc(FirebaseAuth.instance.currentUser!.uid).get();
+if(value.exists){
+userModel=UserModel(userName: value.get("user_Name"), userEmail: value.get("user_Email"), userImage: value.get("user_Image"), userId: value.get("userUid"));
+  currentData=userModel;
+  notifyListeners();
+}
 
+}
 
+UserModel get currentUserData{
+return currentData!;
+}
 }

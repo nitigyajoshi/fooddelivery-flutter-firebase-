@@ -65,92 +65,279 @@ Text('${widget.price}\$/gram',style: TextStyle(
 
   )),
 
-widget.isbool==false?Container(
-height: 35,
-  margin: EdgeInsets.only(right: 15),
-  padding: EdgeInsets.symmetric(horizontal: 10,
-  ),
-decoration: BoxDecoration(
-border: Border.all(color: Colors.grey,
-),
-borderRadius: BorderRadius.circular(30),
+widget.isbool==false?GestureDetector(onTap: (){
+showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+         
+          ListTile(
+  
+            title: new Text('50 gram'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: new Text('500 gram'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: new Text('1 kg'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    });
 
-),
-child: Row(
-  children: [
-Expanded(child: 
-Text('50\$/GRAM',style: TextStyle(
-  color: Colors.grey,
-  fontSize: 14
-),)
-),
-Center(
-child: Icon(
-  Icons.arrow_drop_down,
-  size: 20,
-  color: Colors.yellow,
-),
-),
-Expanded(child: 
-Padding(
-padding: EdgeInsets.symmetric(horizontal: 15,vertical: 32),
+},
   child:   Container(
   
-        height: 100,
+    child:   Row(
   
-        
+    
   
-        child: Container(
+      children: [
   
-  height: 25,width: 50,
+    
   
-  decoration: BoxDecoration(
+    Expanded(child: 
   
-  border: Border.all(color:Colors.grey),
+    
   
-  borderRadius: BorderRadius.circular(30),
+    Text('50\$/GRAM',style: TextStyle(
   
-        
+    
   
-  ),child: Center(
+      color: Colors.grey,
   
-  child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+    
   
-  Icon(Icons.add,color: Colors.yellow,size: 20,),
+      fontSize: 14
   
-  Text("Add",style: TextStyle(color: Colors.yellow),
+    
   
+    ),)
   
+    
   
-  )
+    ),
   
+    
   
+    Center(
+    child: Icon(
   
+      Icons.arrow_drop_down,
   
+    
   
-  ],),
+      size: 20,
   
+    
   
+      color: Colors.yellow,
+  
+    
+  
+    ),
+  
+    
+  
+    ),
+  
+    
+  
+    Expanded(child: 
+  
+    
+  
+    Padding(
+  
+    
+  
+    padding: EdgeInsets.symmetric(horizontal: 15,vertical: 32),
+  
+      child:   Container(
+  
+            height: 100,
+  
+    
+  
+      
+  
+    
+  
+            
+  
+    
+  
+      
+  
+    
+  
+            child: Container(
+  
+    
+  
+      
+  
+    
+  
+      height: 25,width: 50,
+  
+    
+  
+      
+  
+    
+  
+      decoration: BoxDecoration(
+  
+    
+  
+      
+  
+    
+  
+      border: Border.all(color:Colors.grey),
+  
+    
+  
+      
+  
+    
+  
+      borderRadius: BorderRadius.circular(30),
+  
+      ),child: Center(
+  
+      child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+ 
+      Icon(Icons.add,color: Colors.yellow,size: 20,),
+
+      Text("Add",style: TextStyle(color: Colors.yellow),
+      )
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+      ],),
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+      ),
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+      
+  
+    
+  
+            ),
+  
+    
+  
+      
+  
+    
+  
+      ),
+  
+    
+  
+    )
+  
+    
+  
+    ,
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    )
+  
+    
+  
+      ,
+  
+    
+  
+      widget.isbool==false?Container():Divider(height: 1,color: Colors.black,)
+  
+    
+  
+    ,SizedBox(height: 20,),
+  
+    
+  
+    Divider(height: 2,),
+  
+    
+  
+    
+  
+    
+  
+      ],
+  
+    
+  
+    ),
   
   ),
-  
-  
-  
-        ),
-  
-  ),
-)
-,
-
-
-)
-  ,
-  widget.isbool==false?Container():Divider(height: 1,color: Colors.black,)
-,SizedBox(height: 20,),
-Divider(height: 2,),
-
-  ],
-),
 ):Text('50 gram')
 ,Container(
   //color: Colors.amberAccent,height: 15,

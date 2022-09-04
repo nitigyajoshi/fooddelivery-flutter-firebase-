@@ -1,48 +1,69 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/customwidgets/counter.dart';
 import 'package:fooddelivery/customwidgets/listtile.dart';
+import 'package:fooddelivery/customwidgets/single.dart';
+import 'package:fooddelivery/provider/review_cart_provider.dart';
 import 'package:fooddelivery/provider/wishlist_provider.dart';
+import 'package:fooddelivery/review/review.dart';
 import 'package:provider/provider.dart';
 
 import '../customwidgets/bottomnav.dart';
 enum SigninCharacter{fill,outline}
 
-
+List <dynamic>qun=["50gram","500gram","1kg"];
 class ProductOverview extends StatefulWidget {
   final String productname;
   final String productimage;
   final int ?productprice;
-
+var punit;
   final String productId;
-  ProductOverview({required this.productname,required this.productimage,required this.productprice,required this.productId}) ;
+  ProductOverview({required punit,required this.productname,required this.productimage,required this.productprice,required this.productId}) ;
 
   @override
   State<ProductOverview> createState() => _ProductOverviewState();
 }
 
 class _ProductOverviewState extends State<ProductOverview> {
+ReviewCartProvider ?reviewCartProvider;
+
 var price=30;
 SigninCharacter _character=SigninCharacter.fill;
   bool wishListBoool=false;
+
 getbool(){
-FirebaseFirestore.instance.collection('MyWishList').doc(FirebaseAuth.instance.currentUser!.uid).collection("wishList").
+FirebaseFirestore.instance.collection('MyWishList').doc(FirebaseAuth.instance.currentUser!.uid).collection("wishList").doc(widget.productId).
 get().then((value) => {
-value.docs.forEach((element) {
+
 if(this.mounted){
+if(value.exists){
   setState(() { 
-wishListBoool=element.get("wishList");
-
-   });
-}
-
+wishListBoool=value.get("wishListbool");
  })
+}
 
-});
 
 
 }
 
+
+
+}
+
+
+ );
+
+
+
+
+}
+@override
+  void initState() {
+    // getbool();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +102,16 @@ iconcolor:Colors.grey,
 title:"Go to cart",
 icondata:Icons.shop,
 color: Colors.black,
+onTap: (){
+// reviewCartProvider!.addReviewData(widget.productId, widget.productname, widget.productimage, widget.productprice!, 1,);
+
+//setState(() async{
+   Navigator.push(context, MaterialPageRoute(builder:(context)=>ReviewCart(quantity: "50gram",productId: widget.productId,productName: widget.productname,)));
+
+//
+//reviewCartProvider!.addUser(widget.productId, widget.productname, widget.productimage, widget.productprice!, 1, true);
+  // Navigator.push(context, MaterialPageRoute(builder:(context)=>ReviewCart()));
+}
 ),
 ]),
       body: SafeArea(
@@ -158,27 +189,18 @@ color: Colors.black,
         })
           ,Text('\$50')
           ,
-          Container(
-          padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
-          decoration: BoxDecoration(
-          border: Border.all(
-          
-        color: Colors.grey
-        ,
-          ),
-          
-          borderRadius: BorderRadius.circular(2)
-          ),
-          child: Row(children: [
-          Icon(Icons.add,
-          size: 17,
-          color:Colors.grey,
-          )
-          ,Text('Add',style: TextStyle(
-        color: Colors.amberAccent
-          ),)
-          ],),
-          )
+          SizedBox(width: 20,),
+//SingalProduct(i: 1,productunit: widget.punit,productName:widget.productname , 
+//productImage: widget.productimage, productId: widget.productId,
+//  productQuantity:2, productPrice: widget.productprice!),
+
+Counter(unit: qun,productName:widget.productname , 
+productimage: widget.productimage, productId: widget.productId,
+ productQuantity:2, productPrice: widget.productprice!)
+
+     
+
+
           ],)
           
           

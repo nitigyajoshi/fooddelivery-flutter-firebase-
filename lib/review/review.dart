@@ -1,14 +1,75 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/customwidgets/review_single.dart';
 import 'package:fooddelivery/customwidgets/search_widget.dart';
+import 'package:fooddelivery/customwidgets/single.dart';
+import 'package:fooddelivery/model/product_model.dart';
 import 'package:fooddelivery/model/review_cart_model.dart';
 import 'package:fooddelivery/provider/review_cart_provider.dart';
+import 'package:fooddelivery/provider/review_cart_provider.dart';
+import 'package:fooddelivery/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
-class ReviewCart extends StatelessWidget {
-  ReviewCartProvider ?reviewCartProvider;
-  showAlertDialog(BuildContext context, 
-  ReviewCartModel delete
-  ) {
+
+  //  final String ?productId;
+  // final String ?productImage;
+  // final String ?productName;
+  //  final int ?productPrice;
+  //  final VoidCallback ?onTap;
+  //  int ?productQuantity;
+  //  var unit;
+class ReviewCart extends StatefulWidget {
+    final String ?productId;
+  // final String ?productImage;
+  final String ?productName;
+  //  final int ?productPrice;
+  //  final VoidCallback ?onTap;
+  //  int ?productQuantity;
+  final quantity;
+    var unit;
+   ReviewCart({ this.quantity,this.productId,this.unit, this.productName}) ;
+
+  @override
+  State<ReviewCart> createState() => _ReviewState();
+}
+
+class _ReviewState extends State<ReviewCart> {
+  @override
+  //Widget build(BuildContext context) {
+     ReviewCartProvider ?reviewCartProvider;
+
+VoidCallback ?fun;
+
+int quantity=0;
+
+ getAddAndQuantity() {
+    FirebaseFirestore.instance
+        .collection("Review")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("review")
+        .doc(widget.productId)
+        .get()
+        .then(
+          (value) => {
+            if (this.mounted)
+              {
+                if (value.exists)
+                  {
+                    setState(() {
+                      quantity = value.get("cartQuantity");
+                     // isTrue = value.get("isAdd");
+                    })
+                  }
+              }
+          },
+        );
+  }
+
+
+
+  showAlertDialog(BuildContext context,ReviewCartModel delete ) {
+
     // set up the buttons
     Widget cancelButton = MaterialButton(
       child: Text("No"),
@@ -45,9 +106,14 @@ class ReviewCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    reviewCartProvider = Provider.of<ReviewCartProvider>(context);
+    getAddAndQuantity();
+   reviewCartProvider = Provider.of<ReviewCartProvider>(context);
     reviewCartProvider!.getReviewCartData();
+    print('object');
+    print(reviewCartProvider!.review_cart_provider[0].cartunit);
     return Scaffold(
+
+      
       bottomNavigationBar: ListTile(
         title: Text("Total Aount"),
         // subtitle: Text(
@@ -67,6 +133,8 @@ class ReviewCart extends StatelessWidget {
               ),
             ),
             onPressed: () {
+//reviewCartProvider.addUser(cartId, cartName, cartImage, cartPrice, cartQuantity, isAdd)
+
             //print('object');
               // Navigator.of(context).push(
               //   MaterialPageRoute(
@@ -83,40 +151,89 @@ class ReviewCart extends StatelessWidget {
           style: TextStyle(color: Colors.yellow, fontSize: 18),
         ),
       ),
-      body: reviewCartProvider!.review_cart_provider.isEmpty
-          ? Center(
-              child: Text("NO DATA"),
-            )
-          : ListView.builder(
-              itemCount: reviewCartProvider!.review_cart_provider.length,
-              itemBuilder: (context, index) {
-                ReviewCartModel data =
+
+body: reviewCartProvider!.review_cart_provider.isEmpty?Text("NO DATA.."):ListView.builder(
+                itemCount: reviewCartProvider!.review_cart_provider.length,
+
+  itemBuilder: (context,index){
+ ReviewCartModel data =
                     reviewCartProvider!.review_cart_provider[index];
-                return Column(
-                  children: [
-                    SizedBox(
+return Column(children: [ SizedBox(
                       height: 10,
                     ),
-                    SearchItem(isbool: true, title: data.cartName, image: data.cartImage, price: data.cartPrice, id: data.cartId, quantity: data.cartQuantity,delete:(){
-                      showAlertDialog(context,data);
-
-                    },)
-                      // isBool: true,
-                      // wishList: false,
-                      // productImage: data.cartImage,
-                      // productName: data.cartName,
-                      // productPrice: data.cartPrice,
-                      // productId: data.cartId,
-                      // productQuantity: data.cartQuantity,
-                      // productUnit: data.cartUnit,
-                      // onDelete: () {
-                      //   showAlertDialog(context, data);
-                      // },
+                  ReviewSingle(
+                        unit: data,
+                      i: 1,productId: data.cartId,
+                      productName: data.cartName,productImage: data.cartImage,
+                      productPrice: 
+                      data.cartPrice!
+                    ,
+                      productQuantity: 
+                      //widget.unit,
+                      //productQuantity: 1
+                      data.cartQuantity!,
+//                       )
                     
-                  ],
-                );
-              },
-            ),
+)
+],);
+
+
+})
+// Consumer<ReviewCartProvider>(builder: (context,data,child){
+//   //reviewCartProvider.review_cart...
+// return  
+// data.review_cart_provider.isEmpty
+//           ? Center(
+//               child: Text("NO DATA"),
+//             )
+//           : ListView.builder(
+//               itemCount: data.review_cart_provider.length,
+//               itemBuilder: (context, index) {
+//                 ReviewCartModel data1 =
+//                     reviewCartProvider!.review_cart_provider[index];
+                                        
+
+//                    // quantity=data1.cartQuantity!;
+//                 return Column(
+//                   children: [
+//                     SizedBox(
+//                       height: 10,
+//                     ),
+//                     // SearchItem(isbool: true, title: data1.cartName, image: data1.cartImage, price: data1.cartPrice,
+//                     //  id: data1.cartId, quantity: data1.cartQuantity,delete:(){
+//                     //   showAlertDialog(context,data1);
+
+//                     // },),
+                   
+//                       // },
+//                     Row(children: [
+// //Text(data1.cartunit),
+//                       ReviewSingle(
+//                         unit: data1,
+//                       i: 1,productId: data1.cartId,
+//                       productName: data1.cartName,productImage: data1.cartImage,
+//                       productPrice: 
+//                       data1.cartPrice!,
+//                       //productQuantity: widget.unit,
+//                       productQuantity: data1.cartQuantity!,
+//                       )
+                     
+                      
+                  
+//  ],)
+//                   ],
+//                 );
+//               },
+//             );
+
+
+
+
+
+
+// }),
+
     );
   }
+ // }
 }

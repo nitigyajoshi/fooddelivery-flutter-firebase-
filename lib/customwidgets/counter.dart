@@ -12,7 +12,8 @@ class Counter extends StatefulWidget {
   String productId;
   int productQuantity;
   int productPrice;
-   Counter({required this.productName,required this.productimage,required this.productId,required this.productQuantity,required this.productPrice});
+  List<dynamic> unit;
+   Counter({required this.unit,required this.productName,required this.productimage,required this.productId,required this.productQuantity,required this.productPrice});
 
   @override
   State<Counter> createState() => _CounterState();
@@ -67,36 +68,51 @@ istrue=value.get("isAdd");
         setState(() {
         count--;
       });
-reviewCartProvider.updateCart(widget.productId, widget.productName,widget.productimage,widget.productPrice,count);
+reviewCartProvider.updateCart(widget.productId,
+ widget.productName,widget.productimage,widget.productPrice,count);
     }
 // setState(() {
 //   //istrue=false;
 //   count--;
 // });
 
-         },child: Icon(Icons.remove,color: Colors.green)
+         },child: Icon(Icons.remove,color: Colors.green,size: 27,)
          ),
-
+SizedBox(width: 7,),
    Text('$count'),
-   InkWell(onTap: (){
+   SizedBox(width: 7,)
+,   InkWell(onTap: (){
 setState(() {
   //istrue=false;
   count++;
 });
 reviewCartProvider.updateCart(widget.productId, widget.productName, widget.productimage, widget.productPrice, count,);
 
-         },child: Icon(Icons.add,color: Colors.green)
+         },child: Icon(Icons.add,color: Colors.green,size: 27,)
          ),
  //  Icon(Icons.add,color: Colors.green)
 
   ]):Center(
-    child: InkWell(
+    child: InkWell(highlightColor: Colors.red,focusColor: Colors.green,borderRadius: BorderRadius.circular(6),
       onTap: (){
 setState(() {
   istrue=true;
 });
-reviewCartProvider.addUser(widget.productId, widget.productName, widget.productimage, widget.productPrice, count,true);
-      },child: Text('Add'),
+reviewCartProvider.addReviewData(widget.productId,widget.productName,widget.productimage,widget.productPrice,count,widget.unit);
+//reviewCartProvider.updateCart(widget.productId, widget.productName, widget.productimage, widget.productPrice, count);
+      },child: Container(child: Text('+ Add',style: TextStyle(fontSize:25,color: Colors.red ),)
+      ,decoration: BoxDecoration(color: Colors.white,
+      borderRadius: BorderRadius.circular(5)
+      ,boxShadow: [
+  BoxShadow(color: Colors.grey, spreadRadius: 3)
+]
+      // ,    border: Border(
+      //         left: BorderSide(
+      //             color: Colors.green,
+      //             width: 3,
+      //         ),
+      //       )
+            ,),)
     ),
   );}
 }

@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/customwidgets/drawer.dart';
 import 'package:fooddelivery/customwidgets/items1.dart';
@@ -7,10 +8,12 @@ import 'package:fooddelivery/customwidgets/search_widget.dart';
 import 'package:fooddelivery/customwidgets/single.dart';
 import 'package:fooddelivery/customwidgets/upperhomepage.dart';
 import 'package:fooddelivery/provider/product_provider.dart';
+import 'package:fooddelivery/provider/userProvider.dart';
+import 'package:fooddelivery/review/review.dart';
 import 'package:fooddelivery/screens/product_overview.dart';
 import 'package:fooddelivery/search/search.dart';
 import 'package:provider/provider.dart';
-
+var u="50gram";
 class Home extends StatefulWidget {
       const Home({Key? key}) : super(key: key);
 
@@ -20,25 +23,27 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   ProductProvider ?productProvider;
+
   @override
   void initState() {
     ProductProvider provide=Provider.of(context,listen: false);
+
     provide.fetchProductData();
   provide.fetchfruitData();
     // TODO: implement initState
     super.initState();
   }
 
+
           @override
           Widget build(BuildContext context) {
                 productProvider=Provider.of(context,);
-   // productProvider!.fetchProductData();
-    //productProvider!.fetchfruitData();
-            //productProvider=Provider.of(context);
+UserProvider userProvider=Provider.of(context);
+userProvider.getUser();
     return Scaffold(backgroundColor: Color(0xffcbcbcb),
       drawer: Drawer(
         child: Draw(
-          
+          userProvider: userProvider,
         ),
   
       ),
@@ -63,7 +68,10 @@ Padding(
   padding: const EdgeInsets.symmetric(horizontal: 5),
   child:   CircleAvatar(radius: 13,
   backgroundColor: Color.fromARGB(255, 114, 209, 36),
-    child: Icon(Icons.shop),
+    child: GestureDetector(onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder:(context)=>ReviewCart()));
+
+    },child: Icon(Icons.shop)),
   
   ),
 ),
@@ -126,6 +134,7 @@ upperhome(),
       ),
     
 SizedBox(height: 10,),
+
 Padding(padding: EdgeInsets.only(left: 270),child: ElevatedButton(onPressed: (){
 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Search(
   search: productProvider!.getfruitData,
@@ -134,6 +143,7 @@ Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Search(
 
 }, child: Text('View All')),)
    ,fresh2(),
+
       SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(children: [
@@ -152,16 +162,20 @@ return SingleChildScrollView(
  children:productProvider!.getProductData.map((element){
   
 
-  return SingalProduct(productId: element.productId,productPrice:element.product_price!,productName: element.product_Name,productImage: element.product_image,onTap:(){
-Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(productname: element.product_Name,productimage: element.product_image,productId: element.productId,productprice: element.product_price,)));
+  return 
+  SingalProduct(
+    productQuantity: 1,i: 0,
+    //element.quantity!,
+    productunit: element,productId: element.productId,productPrice:element.product_price!,productName: element.product_Name,productImage: element.product_image,onTap:(){
+Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(punit: element.productunit,productname: element.product_Name,productimage: element.product_image,productId: element.productId,productprice: element.product_price,)));
   } );
   
  }).toList()
  ,
         
  
-        ),
-      );
+),
+ );
     
 
 }
@@ -171,8 +185,9 @@ Widget fresh2(){
       child: Column(children:[
         
         Row(children: productProvider!.getfruitData.map((e){
-        return SingalProduct(productId: e.productId,productImage: e.product_image, productName: e.product_Name, productPrice: e.product_price!,onTap:(){
-Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(productname: e.product_Name,productimage: e.product_image,productId: e.productId,productprice: e.product_price)));
+        return 
+        SingalProduct(productunit: e,i: 0,productQuantity: e.quantity!,productId: e.productId,productImage: e.product_image, productName: e.product_Name, productPrice: e.product_price!,onTap:(){
+Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductOverview(punit: e.productunit,productname: e.product_Name,productimage: e.product_image,productId: e.productId,productprice: e.product_price)));
   });
       }).toList(),),])
      

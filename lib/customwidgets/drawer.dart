@@ -1,10 +1,12 @@
 
 import 'package:flutter/material.dart';
  import 'package:fooddelivery/customwidgets/listtile.dart';
+import 'package:fooddelivery/provider/userProvider.dart';
 import 'package:fooddelivery/review/review.dart';
  import 'package:fooddelivery/screens/home.dart';
  import 'package:fooddelivery/screens/myprofile.dart';
 import 'package:fooddelivery/screens/product_overview.dart';
+import 'package:fooddelivery/screens/wishList/wishListScreen.dart';
 
 // class DrawerSide extends StatefulWidget {
 // //required final VoidCallback
@@ -136,14 +138,25 @@ import 'package:fooddelivery/screens/product_overview.dart';
 ///
 //
 
-class Draw extends StatelessWidget {
+class Draw extends StatefulWidget {
+UserProvider userProvider;
 
-   Draw({String ?title,IconData ?iconData,Function ?onTap});
+   Draw({
+    //String ?title,IconData ?iconData,Function ?onTap,
+   required this.userProvider
+   });
 
-Widget drawer({String ?title,IconData ?iconData,Function ?onTap}){
-return Scaffold(
-  body:   Container(
-  
+  @override
+  State<Draw> createState() => _DrawState();
+}
+
+class _DrawState extends State<Draw> {
+
+Widget drawer({String ?title,String ?image,IconData ?iconData,Function ?onTap}){
+ 
+return 
+     Container(
+  height: 145,
     color: Color(0xffd1ad17),
   
   child: ListView(
@@ -151,8 +164,7 @@ return Scaffold(
   children: [
   
   DrawerHeader(child: Row(children: [
-  
-  CircleAvatar(
+ CircleAvatar(
   
   backgroundColor: Colors.white54,
   
@@ -163,12 +175,19 @@ return Scaffold(
   
   
     backgroundColor: Colors.yellow,
-  
+  backgroundImage: NetworkImage(image!=null?image:'https://s3.envato.com/files/328957910/vegi_thumb.png'),
     
   
     radius: 40,
   
-  ),
+  ),),
+SizedBox(width: 10,),
+
+  Text(title!=null?title:'Welcome'),
+
+
+
+  ]),
   
   ),
   
@@ -176,7 +195,7 @@ return Scaffold(
   
   
   
-  ],)),
+  
   
   
   
@@ -224,8 +243,8 @@ return Scaffold(
   
   ),
   
-  ),
-);
+  );
+
 
 }
 
@@ -248,8 +267,33 @@ leading: Icon(
 
   @override
   Widget build(BuildContext context) {
+    var userData = widget.userProvider.currentUserData;
     return ListView(
 children: [
+  drawer(
+title: userData.userName,
+image: userData.userImage
+
+  ),
+  // CircleAvatar(
+  
+  // backgroundColor: Colors.white54,
+  
+  // radius: 45,
+  
+  // child: CircleAvatar(
+  
+  
+  
+  //   backgroundColor: Colors.yellow,
+  // backgroundImage: NetworkImage('https://s3.envato.com/files/328957910/vegi_thumb.png'),
+    
+  
+  //   radius: 40,
+  
+  // ),
+  
+  // ),
 drawerbody(
 title: 'Home',
 iconData:Icons.home_outlined,
@@ -279,7 +323,7 @@ iconData: Icons.person_outlined,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => Myprofile(),
+                      builder: (context) => Myprofile(userProvider: widget.userProvider,),
                     ),
                   );
                 },
@@ -300,11 +344,11 @@ title: "Rating & Review"
 iconData: Icons.favorite_outline,
                   title: "Wishlist",
                   onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => WishLsit(),
-                    //   ),
-                   // );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WishListScreen(),
+                      ),
+                   );
                   }
 
 ),

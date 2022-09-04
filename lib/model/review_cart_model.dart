@@ -4,6 +4,9 @@ String cartName;
 String cartImage;
 int ?cartPrice;
 int ?cartQuantity;
-ReviewCartModel({required this.cartName,required this.cartImage,this.cartPrice,required this.cartId,this.cartQuantity});
+List<dynamic> cartunit;
+ReviewCartModel({
+  required this.cartunit,
+required this.cartName,required this.cartImage,required this.cartPrice,required this.cartId,required this.cartQuantity});
 
 }
